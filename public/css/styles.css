@@ -35,7 +35,6 @@ h1 {
 #infos{
 	position: absolute;
 	width: 30%;
-	height: 500px;
 	right: 0px;
 	background-color: rgba(0, 0, 0, 0.45);
 	overflow:scroll;

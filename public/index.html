@@ -46,7 +46,7 @@
 		    	$('<li>').html("[" + data.time + "] " 
 		    		+ flag + data.country 
 		    		+ " (" + data.ip + ") - <b class='"+data.type+"'>" 
-		    		+ data.event+"</b>").delay(60000).hide('slow')
+		    		+ data.event+"</b>").delay(30000).hide('slow')
 		    );
 
 			// custom marker's icon styles
@@ -75,7 +75,7 @@
 			// dispaear after 60 sec
 			setTimeout(function(){
 				myMarker.setOpacity(0);
-			}, 60000);
+			}, 30000);
 
 			//L.marker([data.latitude, data.longitude]).addTo(map).bindPopup("New Signup.").openPopup();
 		});
