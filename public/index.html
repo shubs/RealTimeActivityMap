@@ -33,15 +33,17 @@
 		var socket = io();
 
 		L.mapbox.accessToken = '';
-		var map = L.mapbox.map('map', 'mapbox.streets');
+		var map = L.mapbox.map('map', 'mapbox.light');
 		map.setView(new L.LatLng(30, 0), 3);
 
 		socket.on('new', function(data){
 			console.log($('li').size());
 		    console.log(data);
-		    $('#log').append($('<li>').html("[" + data.time + "] " + data.country + " (" + data.ip + ") - <b class='"+data.type+"'>"+ data.type+"</b>").delay( 5000 ).hide('slow'));
+		    $('#log').append($('<li>').html("[" + data.time + "] " + data.country + " (" + data.ip + ") - <b class='"+data.type+"'>"+ data.event+"</b>").delay( 5000 ).hide('slow'));
 
-			L.marker([data.latitude, data.longitude]).addTo(map).bindPopup("New Signup.").openPopup();
+			L.marker([data.latitude, data.longitude]).addTo(map).bindPopup(data.event).openPopup();
+
+			//L.marker([data.latitude, data.longitude]).addTo(map).bindPopup("New Signup.").openPopup();
 		});
 	
 	
