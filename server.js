@@ -29,7 +29,7 @@ app.post('/signup', function(req, res) {
 		console.log("type \t-> " + type);
 		console.log("event \t-> " + event);
 
-		satelize.satelize({ip:ip}, function(err, geoData) {
+		satelize.satelize({ip:ip, timeout:3000}, function(err, geoData) {
 			if (err) { console.log(err); }
 			else {
 				var obj = JSON.parse(geoData);
@@ -37,15 +37,17 @@ app.post('/signup', function(req, res) {
 				var country = obj.country;
 				var longitude = obj.longitude;
 				var latitude = obj.latitude;
+				var iso = obj.country_code;
 
 				coordinates = {
 					event : event,
 					latitude : latitude,
 					longitude : longitude,
 					country: country,
+					iso: iso,
 					ip: ip,
 					type: plans[chance.natural({min: 0, max: (plans.length - 1)})],
-					time: moment().format('hh:mm:ss')
+					time: moment().format('HH:mm:ss')
 				};
 
 				io.emit('new', coordinates);

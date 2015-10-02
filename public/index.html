@@ -8,10 +8,12 @@
 	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 
+
 	<link href='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.css' rel='stylesheet' />
 
 	<link href='http://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="./css/styles.css">
+	<link rel="stylesheet" href="./css/flag-icon.min.css">
 
 </head>
 <body>
@@ -32,16 +34,24 @@
 	<script>
 		var socket = io();
 
-		L.mapbox.accessToken = '';
-		var map = L.mapbox.map('map', 'mapbox.light');
+		L.mapbox.accessToken = 'pk.eyJ1Ijoic2h1YnMiLCJhIjoiY2lmOG50cGx4MDA1OHRma21xdzY5MW41YSJ9.z0yXWQGdadDB0XIxJBrtjQ';
+		var map = L.mapbox.map('map', 'mapbox.pencil');
 		map.setView(new L.LatLng(30, 0), 3);
 
 		socket.on('new', function(data){
 			console.log($('li').size());
 		    console.log(data);
-		    $('#log').append($('<li>').html("[" + data.time + "] " + data.country + " (" + data.ip + ") - <b class='"+data.type+"'>"+ data.event+"</b>").delay( 5000 ).hide('slow'));
+		    var flag = '<span class="flag-icon flag-icon-' + data.iso.toLowerCase() + ' flag-icon-squared"></span>';
 
-			L.marker([data.latitude, data.longitude]).addTo(map).bindPopup(data.event).openPopup();
+		    $('#log').append($('<li>').html("[" + data.time + "] " + flag + data.country + " (" + data.ip + ") - <b class='"+data.type+"'>"+ data.event+"</b>").delay(10000).hide('slow'));
+
+			var myMarker = L.marker([data.latitude, data.longitude]);
+			myMarker.addTo(map).bindPopup(data.event).openPopup();
+
+			// dispaear after 60 sec
+			setTimeout(function(){
+				myMarker.setOpacity(0);
+			}, 60000);
 
 			//L.marker([data.latitude, data.longitude]).addTo(map).bindPopup("New Signup.").openPopup();
 		});

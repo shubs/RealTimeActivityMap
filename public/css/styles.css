@@ -39,6 +39,7 @@ h1 {
 	right: 0px;
 	background-color: rgba(0, 0, 0, 0.45);
 	overflow:scroll;
+	size:1px;
 }
 
 #log { list-style-type: none; margin: 0; padding: 0; }
