@@ -10,9 +10,12 @@
   "author": "Shubham SHARMA <shubham@sharma.fr> (http://www.sharma.fr/)",
   "license": "ISC",
   "dependencies": {
+    "analytics-node": "^2.0.0",
+    "body-parser": "^1.14.1",
     "chance": "^0.7.7",
     "express": "^4.13.3",
     "moment": "^2.10.6",
+    "satelize": "^0.1.2",
     "socket.io": "^1.3.7"
   }
 }
