@@ -7,8 +7,6 @@ var moment = require('moment');
 var satelize = require('satelize');
 var bodyParser = require('body-parser'); 
 
-var request = require('request');
-
 var chance = new Chance();
 
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
@@ -16,17 +14,14 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	  extended: true
 }));
 
-
-
-//var basicAuth = require('basic-auth-connect');
-//app.use(basicAuth('hq', ''));
+var basicAuth = require('basic-auth-connect');
+app.use(basicAuth('hq', ''));
 
 app.use(express.static('public'));
 
 app.get('/', function (req, res) {
   res.sendFile('index.html');
 });
-
 
 app.post('/signup', function(req, res) {
 	var ip = req.body.context.ip;
@@ -38,14 +33,15 @@ app.post('/signup', function(req, res) {
 		console.log("type \t-> " + type);
 		console.log("event \t-> " + event);
 
-		request('http://ipinfo.io/'+ip+'/json', function (error, response, body) {
-		 	if (!error && response.statusCode == 200) {
-				var obj = JSON.parse(body);
+		satelize.satelize({ip:ip, timeout:3000}, function(err, geoData) {
+			if (err) { console.log(err); }
+			else {
+				var obj = JSON.parse(geoData);
 
 				var country = obj.country;
-				var longitude = obj.loc.split(',')[1];
-				var latitude = obj.loc.split(',')[0];
-				var iso = obj.country;
+				var longitude = obj.longitude;
+				var latitude = obj.latitude;
+				var iso = obj.country_code;
 
 				coordinates = {
 					event : event,
@@ -62,9 +58,6 @@ app.post('/signup', function(req, res) {
 
 				console.log(obj);
 				console.log("\n");
-			}
-			else{
-				console.log(error, response.statusCode);
 			}
 		});
 	}
