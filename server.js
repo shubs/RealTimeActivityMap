@@ -5,6 +5,7 @@ var Chance = require('chance');
 var moment = require('moment');
 
 var satelize = require('satelize');
+var geoip = require('geoip-lite');
 var bodyParser = require('body-parser'); 
 
 var chance = new Chance();
@@ -33,33 +34,28 @@ app.post('/signup', function(req, res) {
 		console.log("type \t-> " + type);
 		console.log("event \t-> " + event);
 
-		satelize.satelize({ip:ip, timeout:10000}, function(err, geoData) {
-			if (err) { console.log(err); }
-			else {
-				var obj = JSON.parse(geoData);
+		obj = geoip.lookup(ip);
 
-				var country = obj.country;
-				var longitude = obj.longitude;
-				var latitude = obj.latitude;
-				var iso = obj.country_code;
+		var country = obj.country;
+		var longitude = obj.ll[0];
+		var latitude = obj.ll[1];
+		var iso = obj.country;
 
-				coordinates = {
-					event : event,
-					latitude : latitude,
-					longitude : longitude,
-					country: country,
-					iso: iso,
-					ip: ip,
-					type: plans[chance.natural({min: 0, max: (plans.length - 1)})],
-					time: moment().format('HH:mm:ss')
-				};
+		coordinates = {
+			event : event,
+			latitude : latitude,
+			longitude : longitude,
+			country: country,
+			iso: iso,
+			ip: ip,
+			type: plans[chance.natural({min: 0, max: (plans.length - 1)})],
+			time: moment().format('HH:mm:ss')
+		};
 
-				io.emit('new', coordinates);
+		io.emit('new', coordinates);
 
-				console.log(obj);
-				console.log("\n");
-			}
-		});
+		console.log(obj);
+		console.log("\n");
 	}
 });
 
