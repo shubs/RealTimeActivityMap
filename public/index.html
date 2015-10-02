@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=utf-8 />
+	<title>A simple map</title>
+	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+	<script src='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
+	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+
+	<link href='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.css' rel='stylesheet' />
+
+	<link href='http://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="./css/styles.css">
+
+</head>
+<body>
+	<div class="wrapper">
+	  <header>
+	  	<img id="logo" src="https://www.mailjet.com/wp-content/themes/mailjet/mailjet/img/mailjet-logo-white.png">
+	  	<h1>Real time signup tracking</h1>
+	  	<div class="description">This dashboard locates in real time all the signups.</div>
+	  </header>
+	</div>
+
+	<div id="map">To get this app to work you need to share your geolocation.</div>
+
+	<div id="infos">
+		<ul id='log'></ul>
+	</div>
+
+	<script>
+		var socket = io();
+
+		L.mapbox.accessToken = '';
+		var map = L.mapbox.map('map', 'mapbox.streets');
+		map.setView(new L.LatLng(30, 0), 3);
+
+		socket.on('new', function(data){
+			console.log($('li').size());
+		    console.log(data);
+		    $('#log').append($('<li>').html("[" + data.time + "] " + data.country + " (" + data.ip + ") - <b class='"+data.type+"'>"+ data.type+"</b>").delay( 5000 ).hide('slow'));
+
+			L.marker([data.latitude, data.longitude]).addTo(map).bindPopup("New Signup.").openPopup();
+		});
+	
+	
+
+		var popup = L.popup();
+
+		function onMapClick(e) {
+			popup
+				.setLatLng(e.latlng)
+				.setContent("You clicked the map at " + e.latlng.toString())
+				.openOn(map);
+		}
+
+		map.on('click', onMapClick);
+
+	</script>
+</body>
+</html>
