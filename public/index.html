@@ -42,11 +42,11 @@
 		socket.on('new', function(data){
 		    var flag = '<span class="flag-icon flag-icon-' + data.iso.toLowerCase() + '"></span>';
 
-		    $('#log').append(
-		    	$('<li>').html("[" + data.time + "] " 
+		    $('#log').prepend(
+		    	$('<li>').fadeIn("slow").html("[" + data.time + "] " 
 		    		+ flag + data.country 
 		    		+ " (" + data.ip + ") - <b class='"+data.type+"'>" 
-		    		+ data.event+"</b>").delay(30000).hide('slow')
+		    		+ data.event+"</b>").fadeIn("slow").delay(30000).hide('slow')
 		    );
 
 			// custom marker's icon styles
