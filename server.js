@@ -5,8 +5,9 @@ var Chance = require('chance');
 var moment = require('moment');
 
 var satelize = require('satelize');
-var geoip = require('geoip-lite');
 var bodyParser = require('body-parser'); 
+
+var request = require('request');
 
 var chance = new Chance();
 
@@ -14,6 +15,8 @@ app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	  extended: true
 }));
+
+
 
 //var basicAuth = require('basic-auth-connect');
 //app.use(basicAuth('hq', ''));
@@ -23,6 +26,7 @@ app.use(express.static('public'));
 app.get('/', function (req, res) {
   res.sendFile('index.html');
 });
+
 
 app.post('/signup', function(req, res) {
 	var ip = req.body.context.ip;
@@ -34,28 +38,32 @@ app.post('/signup', function(req, res) {
 		console.log("type \t-> " + type);
 		console.log("event \t-> " + event);
 
-		obj = geoip.lookup(ip);
+		request('http://ipinfo.io/'+ip+'/json', function (error, response, body) {
+		 	if (!error && response.statusCode == 200) {
+				var obj = JSON.parse(body);
 
-		var country = obj.country;
-		var longitude = obj.ll[0];
-		var latitude = obj.ll[1];
-		var iso = obj.country;
+				var country = obj.country;
+				var longitude = obj.loc.split(',')[0];
+				var latitude = obj.loc.split(',')[1];
+				var iso = obj.country;
 
-		coordinates = {
-			event : event,
-			latitude : latitude,
-			longitude : longitude,
-			country: country,
-			iso: iso,
-			ip: ip,
-			type: plans[chance.natural({min: 0, max: (plans.length - 1)})],
-			time: moment().format('HH:mm:ss')
-		};
+				coordinates = {
+					event : event,
+					latitude : latitude,
+					longitude : longitude,
+					country: country,
+					iso: iso,
+					ip: ip,
+					type: plans[chance.natural({min: 0, max: (plans.length - 1)})],
+					time: moment().format('HH:mm:ss')
+				};
 
-		io.emit('new', coordinates);
+				io.emit('new', coordinates);
 
-		console.log(obj);
-		console.log("\n");
+				console.log(obj);
+				console.log("\n");
+			}
+		});
 	}
 });
 
