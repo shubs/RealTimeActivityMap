@@ -63,6 +63,9 @@ app.post('/signup', function(req, res) {
 				console.log(obj);
 				console.log("\n");
 			}
+			else{
+				console.log(error, response.statusCode);
+			}
 		});
 	}
 });
