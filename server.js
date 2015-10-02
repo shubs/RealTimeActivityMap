@@ -24,7 +24,6 @@ app.post('/signup', function(req, res) {
 	var type = req.body.type;
 	var event = req.body.event;
 
-	if (type == 'track'){
 		console.log("ip \t-> " + ip);
 		console.log("type \t-> " + type);
 		console.log("event \t-> " + event);
@@ -56,7 +55,6 @@ app.post('/signup', function(req, res) {
 				console.log("\n");
 			}
 		});
-	}
 });
 
 var server    = app.listen(3000);
