@@ -23,6 +23,42 @@ app.post('/signup', function(req, res) {
 	var ip = req.body.context.ip;
 	var type = req.body.type;
 	var event = req.body.event;
+	var page = req.body.context.page.path;
+
+	if (type == 'track'){
+		console.log("ip \t-> " + ip);
+		console.log("type \t-> " + type);
+		console.log("event \t-> " + event);
+
+		satelize.satelize({ip:ip, timeout:3000}, function(err, geoData) {
+			if (err) { console.log(err); }
+			else {
+				var obj = JSON.parse(geoData);
+
+				var country = obj.country;
+				var longitude = obj.longitude;
+				var latitude = obj.latitude;
+				var iso = obj.country_code;
+
+				coordinates = {
+					event : event,
+					latitude : latitude,
+					longitude : longitude,
+					country: country,
+					iso: iso,
+					ip: ip,
+					type: plans[chance.natural({min: 0, max: (plans.length - 1)})],
+					time: moment().format('HH:mm:ss')
+				};
+
+				io.emit('new', coordinates);
+
+				console.log(obj);
+				console.log("\n");
+			}
+		});
+	}
+	else{
 
 		console.log("ip \t-> " + ip);
 		console.log("type \t-> " + type);
@@ -55,6 +91,7 @@ app.post('/signup', function(req, res) {
 				console.log("\n");
 			}
 		});
+	}
 });
 
 var server    = app.listen(3000);
