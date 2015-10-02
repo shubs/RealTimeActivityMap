@@ -36,16 +36,40 @@
 
 		L.mapbox.accessToken = 'pk.eyJ1Ijoic2h1YnMiLCJhIjoiY2lmOG50cGx4MDA1OHRma21xdzY5MW41YSJ9.z0yXWQGdadDB0XIxJBrtjQ';
 		var map = L.mapbox.map('map', 'mapbox.pencil');
+
 		map.setView(new L.LatLng(30, 0), 3);
 
 		socket.on('new', function(data){
-			console.log($('li').size());
-		    console.log(data);
-		    var flag = '<span class="flag-icon flag-icon-' + data.iso.toLowerCase() + ' flag-icon-squared"></span>';
+		    var flag = '<span class="flag-icon flag-icon-' + data.iso.toLowerCase() + '"></span>';
 
-		    $('#log').append($('<li>').html("[" + data.time + "] " + flag + data.country + " (" + data.ip + ") - <b class='"+data.type+"'>"+ data.event+"</b>").delay(10000).hide('slow'));
+		    $('#log').append(
+		    	$('<li>').html("[" + data.time + "] " 
+		    		+ flag + data.country 
+		    		+ " (" + data.ip + ") - <b class='"+data.type+"'>" 
+		    		+ data.event+"</b>").delay(15000).hide('slow')
+		    );
 
-			var myMarker = L.marker([data.latitude, data.longitude]);
+			// custom marker's icon styles
+			var tinyIcon = L.Icon.extend({
+				options: {
+					shadowUrl: '../assets/marker-shadow.png',
+					iconSize: [25, 39],
+					iconAnchor:   [12, 36],
+					shadowSize: [41, 41],
+					shadowAnchor: [12, 38],
+					popupAnchor: [0, -30],
+				}
+			});
+			var redIcon = new tinyIcon({ iconUrl: '../assets/marker-red.png' });
+			var yellowIcon = new tinyIcon({ iconUrl: '../assets/marker-yellow.png' });
+
+			
+
+			if (data.event == "signin-loaded")
+				var myMarker = L.marker([data.latitude, data.longitude], {icon:redIcon });
+			else
+				var myMarker = L.marker([data.latitude, data.longitude], {icon:yellowIcon });
+
 			myMarker.addTo(map).bindPopup(data.event).openPopup();
 
 			// dispaear after 60 sec
