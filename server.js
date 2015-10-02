@@ -14,8 +14,6 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	  extended: true
 }));
 
-var basicAuth = require('basic-auth-connect');
-app.use(basicAuth('hq', ''));
 
 app.use(express.static('public'));
 
