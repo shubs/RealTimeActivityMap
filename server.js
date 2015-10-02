@@ -14,8 +14,8 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	  extended: true
 }));
 
-var basicAuth = require('basic-auth-connect');
-app.use(basicAuth('hq', ''));
+//var basicAuth = require('basic-auth-connect');
+//app.use(basicAuth('hq', ''));
 
 app.use(express.static('public'));
 
@@ -33,7 +33,7 @@ app.post('/signup', function(req, res) {
 		console.log("type \t-> " + type);
 		console.log("event \t-> " + event);
 
-		satelize.satelize({ip:ip, timeout:3000}, function(err, geoData) {
+		satelize.satelize({ip:ip, timeout:10000}, function(err, geoData) {
 			if (err) { console.log(err); }
 			else {
 				var obj = JSON.parse(geoData);
