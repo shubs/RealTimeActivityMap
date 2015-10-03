@@ -7,6 +7,8 @@ var moment = require('moment');
 var satelize = require('satelize');
 var bodyParser = require('body-parser'); 
 
+var request = require('request');
+
 var chance = new Chance();
 
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
@@ -15,11 +17,16 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 
 
+
+//var basicAuth = require('basic-auth-connect');
+//app.use(basicAuth('hq', ''));
+
 app.use(express.static('public'));
 
 app.get('/', function (req, res) {
   res.sendFile('index.html');
 });
+
 
 app.post('/signup', function(req, res) {
 	var ip = req.body.context.ip;
@@ -31,15 +38,14 @@ app.post('/signup', function(req, res) {
 		console.log("type \t-> " + type);
 		console.log("event \t-> " + event);
 
-		satelize.satelize({ip:ip, timeout:3000}, function(err, geoData) {
-			if (err) { console.log(err); }
-			else {
-				var obj = JSON.parse(geoData);
+		request('http://ip-api.com/json/'+ip+'', function (error, response, body) {
+		 	if (!error && response.statusCode == 200) {
+				var obj = JSON.parse(body);
 
 				var country = obj.country;
-				var longitude = obj.longitude;
-				var latitude = obj.latitude;
-				var iso = obj.country_code;
+				var longitude = obj.lat;
+				var latitude = obj.lon;
+				var iso = obj.countryCode;
 
 				coordinates = {
 					event : event,
@@ -56,6 +62,9 @@ app.post('/signup', function(req, res) {
 
 				console.log(obj);
 				console.log("\n");
+			}
+			else{
+				console.log(error, response.statusCode);
 			}
 		});
 	}
