@@ -43,8 +43,8 @@ app.post('/signup', function(req, res) {
 				var obj = JSON.parse(body);
 
 				var country = obj.country;
-				var longitude = obj.lat;
-				var latitude = obj.lon;
+				var longitude = obj.lon;
+				var latitude = obj.lat;
 				var iso = obj.countryCode;
 
 				coordinates = {
