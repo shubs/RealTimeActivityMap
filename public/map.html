@@ -65,12 +65,13 @@
 
 			
 
-			if (data.event == "signin-loaded")
+			if (data.event == "signin-loaded") {
 				var myMarker = L.marker([data.latitude, data.longitude]);
 				myMarker.setIcon(L.mapbox.marker.icon({
                     'marker-color': '#ff8888',
                     'marker-size': 'large'
                 }));
+			}
 			else
 				var myMarker = L.marker([data.latitude, data.longitude], {icon:yellowIcon });
 
