@@ -35,7 +35,7 @@
 		var socket = io();
 
 		L.mapbox.accessToken = 'pk.eyJ1Ijoic2h1YnMiLCJhIjoiY2lmOG50cGx4MDA1OHRma21xdzY5MW41YSJ9.z0yXWQGdadDB0XIxJBrtjQ';
-		var map = L.mapbox.map('map', 'mapbox.run-bike-hike');
+		var map = L.mapbox.map('map', 'mapbox.light');
 
 		map.setView(new L.LatLng(30, 0), 3);
 
@@ -86,8 +86,7 @@
 			}
 			else {
 				myMarker.setIcon(L.mapbox.marker.icon({
-                    'marker-color': '#000000',
-                    'marker-size': 'large'
+                    'marker-color': '#000000'
                 }));
 			}
 
