@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var request = require('request');
 var chance = new Chance();
 
-var number = 0;
+var users = [];
 
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(express.static('public'));
@@ -69,11 +69,13 @@ var plans = ['Free', 'Crystal', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond
 
 io.sockets.on('connection', function (socket) {
   console.log('a user connected');
-  number++;
+  var address = socket.handshake.address;
+  console.log('New connection from ' + address.address );
+  users.push(address);
 });
 
 setInterval(function(){
-	console.log(number + " Users online");
+	console.log(users);
 }, 1000);
 
 
