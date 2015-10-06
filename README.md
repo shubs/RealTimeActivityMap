@@ -3,27 +3,18 @@
 ```
 $> node server.js
 ```
+And visit http://localhost:3000
 
 # The flow
-The server is here to be connected with the cilent using socket IO
+The server sends data to the front using socket io
 
 # Dependencies
-Google map API
+- Mapbox.js
+- Socket.io
+- Express.js
 
-# TODO
+# Low hanging fruits
 
-## TODO v0
-- Index.html a map
-- Add a point coming from the server
-- Log
-
-## TODO v1
-- Add a point every 5 second
-
-## TODO v2
-- Customise the Map
-- Customise the arrow + the way it drops (animation: google.maps.Animation.DROP) 
-
-## TODO v3
-- Server polls the an API
-- Track the 
+- Add more icon types
+- Add a day summary
+- Slack integration

@@ -3,25 +3,15 @@ var app       = express();
 var socketio  = require('socket.io');
 var Chance = require('chance');
 var moment = require('moment');
-
-var satelize = require('satelize');
 var bodyParser = require('body-parser'); 
-
 var request = require('request');
-
 var chance = new Chance();
 
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+app.use(express.static('public'));
 	  extended: true
 }));
-
-
-
-//var basicAuth = require('basic-auth-connect');
-//app.use(basicAuth('hq', ''));
-
-app.use(express.static('public'));
 
 app.get('/', function (req, res) {
   res.sendFile('index.html');
@@ -33,6 +23,7 @@ app.post('/signup', function(req, res) {
 	var type = req.body.type;
 	var event = req.body.event;
 
+	// segmentio specific
 	if (type == 'track'){
 		console.log("ip \t-> " + ip);
 		console.log("type \t-> " + type);
@@ -78,16 +69,3 @@ io.sockets.on('connection', function (socket) {
   console.log('a user connected');
 });
 
-// setInterval(function(){
-// 	coordinates = {
-// 		latitude : chance.latitude(),
-// 		longitude : chance.longitude(),
-// 		country: chance.country({ full: true }),
-// 		ip: chance.ip(),
-// 		type: plans[chance.natural({min: 0, max: (plans.length - 1)})],
-// 		time: moment().format('hh:mm:ss')
-// 	};
-
-// 	io.emit('new', coordinates);
-// }, 1000);
-//}, chance.natural({min: 4000, max: 20000}));
