@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var request = require('request');
 var chance = new Chance();
 
+var number = 0;
+
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 app.use(express.static('public'));
@@ -67,5 +69,11 @@ var plans = ['Free', 'Crystal', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond
 
 io.sockets.on('connection', function (socket) {
   console.log('a user connected');
+  number++;
 });
+
+setInterval(function(){
+	console.log(number + " Users online");
+}, 1000);
+
 
