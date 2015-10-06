@@ -49,31 +49,51 @@
 		    		+ data.event+"</b>").fadeIn("slow").delay(30000).hide('slow')
 		    );
 
-			// custom marker's icon styles
-			var tinyIcon = L.Icon.extend({
-				options: {
-					shadowUrl: '../assets/marker-shadow.png',
-					iconSize: [25, 39],
-					iconAnchor:   [12, 36],
-					shadowSize: [41, 41],
-					shadowAnchor: [12, 38],
-					popupAnchor: [0, -30],
-				}
-			});
-			var redIcon = new tinyIcon({ iconUrl: '../assets/marker-red.png' });
-			var yellowIcon = new tinyIcon({ iconUrl: '../assets/marker-yellow.png' });
-
+			var myMarker = L.marker([data.latitude, data.longitude]);
 			
 
-			if (data.event == "signin-loaded") {
-				var myMarker = L.marker([data.latitude, data.longitude]);
+			if (data.event.indexOf("contactlist") > -1) {
 				myMarker.setIcon(L.mapbox.marker.icon({
-                    'marker-color': '#ff8888',
+                    'marker-color': '#7b58a3',
                     'marker-size': 'large'
                 }));
 			}
-			else
-				var myMarker = L.marker([data.latitude, data.longitude], {icon:yellowIcon });
+			else if (data.event.indexOf("Answered NPS Survey") > -1) {
+				myMarker.setIcon(L.mapbox.marker.icon({
+                    'marker-color': '#a37858',
+                    'marker-size': 'large'
+                }));
+			}
+			else if (data.event.indexOf("blog") > -1) {
+				myMarker.setIcon(L.mapbox.marker.icon({
+                    'marker-color': '#4c4f59',
+                    'marker-size': 'large'
+                }));
+			}
+			else if (data.event.indexOf("signin") > -1) {
+				myMarker.setIcon(L.mapbox.marker.icon({
+                    'marker-color': '#ebad54',
+                    'marker-size': 'large'
+                }));
+			}
+			else if (data.event.indexOf("caimpaign") > -1) {
+				myMarker.setIcon(L.mapbox.marker.icon({
+                    'marker-color': '#68b6b0',
+                    'marker-size': 'large'
+                }));
+			}
+			else if (data.event.indexOf("signup") > -1) {
+				myMarker.setIcon(L.mapbox.marker.icon({
+                    'marker-color': '#f26b33',
+                    'marker-size': 'large'
+                }));
+			}
+			else {
+				myMarker.setIcon(L.mapbox.marker.icon({
+                    'marker-color': '#000000',
+                    'marker-size': 'large'
+                }));
+			}
 
 			myMarker.addTo(map).bindPopup(data.event).openPopup();
 
