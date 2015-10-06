@@ -5,18 +5,24 @@ var Chance = require('chance');
 var moment = require('moment');
 var bodyParser = require('body-parser'); 
 var request = require('request');
+var path    = require("path");
 var chance = new Chance();
 
+var ip = ["77.132.40.134", "::1"]
 var users = [];
 
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 	  extended: true
 }));
 
 app.get('/', function (req, res) {
-  res.sendFile('index.html');
+	console.log('GET / req.ip -> ' + req.ip);
+  	if (ip.indexOf(req.ip)  > -1)
+		res.sendFile(path.join(__dirname+'/public/map.html'));
+	else
+		res.send('Ask Shubham to allow your IP ('+req.ip+') by sending an Email to shubham@mailjet.com ;)');
 });
 
 
