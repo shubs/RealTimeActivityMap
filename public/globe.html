@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <script src="http://www.webglearth.com/v2/api.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    
+  <link href='http://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="./css/styles.css">
+  <link rel="stylesheet" href="./css/flag-icon.min.css">  
+    <title>WebGL Earth API v2: Animation</title>
+  </head>
+</html>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8 />
+  <title>Mailjet Real time event tracking</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
+  <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+  <script src="http://www.webglearth.com/v2/api.js"></script>
+    <style>
+      html, body{padding: 0; margin: 0; background-color: black}
+      #earth_div{ top: 0; right: 0; bottom: 0; left: 0; position: absolute !important;}
+    </style>
+  <link href='http://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="./css/styles.css">
+  <link rel="stylesheet" href="./css/flag-icon.min.css">
+
+</head>
+<body onload="initialize()">
+  <div class="wrapper">
+    <header>
+      <img id="logo" src="https://www.mailjet.com/wp-content/themes/mailjet/mailjet/img/mailjet-logo-white.png">
+      <h1>Real time event tracking</h1>
+      <div class="description">This dashboard locates in real time all the events.</div>
+    </header>
+  </div>
+
+  <!-- <div id="map">To get this app to work you need to share your geolocation.</div> -->
+
+    <div id="earth_div"></div>
+
+  <div id="infos">
+    <ul id='log'></ul>
+  </div>
+
+  <script>
+
+        var earth;
+      function initialize() {
+        earth = new WE.map('earth_div');
+        earth.setView([46.8011, 8.2266], 3);
+        WE.tileLayer('http://data.webglearth.com/natural-earth-color/{z}/{x}/{y}.jpg', {
+          tileSize: 256,
+          bounds: [[-85, -180], [85, 180]],
+          minZoom: 0,
+          maxZoom: 16,
+          attribution: 'WebGLEarth example',
+          tms: true
+        }).addTo(earth);
+
+        var marker = WE.marker([51.5, -0.09]).addTo(earth);
+        marker.bindPopup("<b>Hello world!</b><br>I am a popup.<br /><span style='font-size:10px;color:#999'>Tip: Another popup is hidden in Cairo..</span>", {maxWidth: 150, closeButton: true}).openPopup();
+
+
+        // Start a simple rotation animation
+        var before = null;
+        requestAnimationFrame(function animate(now) {
+            var c = earth.getPosition();
+            var elapsed = before? now - before: 0;
+            before = now;
+            earth.setCenter([c[0], c[1] + 0.1*(elapsed/30)]);
+            requestAnimationFrame(animate);
+        });
+      }
+    var socket = io();
+
+    socket.on('new', function(data){
+        var flag = '<span class="flag-icon flag-icon-' + data.iso.toLowerCase() + '"></span>';
+
+        $('#log').prepend(
+          $('<li>').fadeIn("slow").html("[" + data.time + "] " 
+            + flag + data.country 
+            + " (" + data.ip + ") - <b class='"+data.type+"'>" 
+            + data.event+"</b>").fadeIn("slow").delay(30000).hide('slow')
+        );
+
+        var marker = WE.marker([data.latitude, data.longitude]).addTo(earth);
+        marker.bindPopup(data.event, {maxWidth: 150, closeButton: true}).openPopup();
+
+     
+    });
+  
+
+  </script>
+</body>
+</html>
