@@ -25,6 +25,10 @@ app.get('/', function (req, res) {
 		res.send('Ask me to allow your IP ('+req.ip+') by sending an Email to shubham@mailjet.com ;)');
 });
 
+app.get('/globe', function (req, res) {
+	res.sendFile(path.join(__dirname+'/public/globe.html'));
+});
+
 
 app.post('/signup', function(req, res) {
 	var ip = req.body.context.ip;
