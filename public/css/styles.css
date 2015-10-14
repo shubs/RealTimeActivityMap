@@ -3,6 +3,7 @@
 body {
 	background: url('https://www.mailjet.com/wp-content/themes/mailjet/mailjet/img/nav-bg.jpg') #f2f2f2;
 	color: #fff;
+	overflow:hidden;
 	font: 14px/18px 'Lato', Arial, sans-serif;
 }
 

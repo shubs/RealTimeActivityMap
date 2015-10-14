@@ -73,7 +73,7 @@ app.post('/signup', function(req, res) {
 	}
 });
 
-var server    = app.listen(3000);
+var server    = app.listen(1338);
 var io        = socketio.listen(server);
 var plans = ['Free', 'Crystal', 'Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond'];
 

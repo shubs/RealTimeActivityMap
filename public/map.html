@@ -36,7 +36,7 @@
 		var socket = io();
 
 		L.mapbox.accessToken = 'pk.eyJ1Ijoic2h1YnMiLCJhIjoiY2lmOG50cGx4MDA1OHRma21xdzY5MW41YSJ9.z0yXWQGdadDB0XIxJBrtjQ';
-		var map = L.mapbox.map('map', 'mapbox.light');
+		var map = L.mapbox.map('map', 'mapbox.satellite');
 
 		map.setView(new L.LatLng(30, 0), 3);
 
@@ -91,7 +91,7 @@
                 }));
 			}
 
-			myMarker.addTo(map).bindPopup(data.event).openPopup();
+			myMarker.addTo(map);
 
 			// dispaear after 60 sec
 			setTimeout(function(){
