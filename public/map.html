@@ -47,7 +47,7 @@
 		    	$('<li>').fadeIn("slow").html("[" + data.time + "] " 
 		    		+ flag + data.country 
 		    		+ " (" + data.ip + ") - <b class='"+data.type+"'>" 
-		    		+ data.event+"</b>").fadeIn("slow").delay(30000).hide('slow')
+		    		+ data.event+"</b>").fadeIn("slow").delay(3000).hide('slow')
 		    );
 
 			var myMarker = L.marker([data.latitude, data.longitude]);
@@ -96,7 +96,7 @@
 			// dispaear after 60 sec
 			setTimeout(function(){
 				myMarker.setOpacity(0);
-			}, 30000);
+			}, 3000);
 
 			//L.marker([data.latitude, data.longitude]).addTo(map).bindPopup("New Signup.").openPopup();
 		});

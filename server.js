@@ -33,10 +33,17 @@ app.get('/globe', function (req, res) {
 app.post('/signup', function(req, res) {
 	var ip = req.body.context.ip;
 	var type = req.body.type;
-	var event = req.body.event;
+	
 
 	// segmentio specific
 	if (type == 'track'){
+	var event = req.body.event;
+		var event = req.body.event
+	}
+	else if (type == 'page'){
+		var event = req.body.context.page.path;
+	}
+
 		console.log("ip \t-> " + ip);
 		console.log("type \t-> " + type);
 		console.log("event \t-> " + event);
@@ -70,7 +77,7 @@ app.post('/signup', function(req, res) {
 				console.log(error, response.statusCode);
 			}
 		});
-	}
+	
 });
 
 var server    = app.listen(1338);
