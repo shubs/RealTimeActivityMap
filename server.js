@@ -36,26 +36,26 @@ app.post('/signup', function(req, res) {
 	
 
 	// segmentio specific
-	if (type == 'track'){
+	if (type == 'page'){
 	var event = req.body.event;
-		var event = req.body.event
-	}
-	else if (type == 'page'){
 		var event = req.body.context.page.path;
 	}
+	else if (type == 'track'){
+		var event = req.body.event
+	
 
 		console.log("ip \t-> " + ip);
 		console.log("type \t-> " + type);
 		console.log("event \t-> " + event);
 
-		request('http://ip-api.com/json/'+ip+'', function (error, response, body) {
+		request('http://www.telize.com/geoip/'+ip+'', function (error, response, body) {
 		 	if (!error && response.statusCode == 200) {
 				var obj = JSON.parse(body);
 
 				var country = obj.country;
-				var longitude = obj.lon;
-				var latitude = obj.lat;
-				var iso = obj.countryCode;
+				var longitude = obj.longitude;
+				var latitude = obj.latitude;
+				var iso = obj.country_code;
 
 				coordinates = {
 					event : event,
@@ -77,7 +77,7 @@ app.post('/signup', function(req, res) {
 				console.log(error, response.statusCode);
 			}
 		});
-	
+	}
 });
 
 var server    = app.listen(1338);

@@ -47,56 +47,40 @@
 		    	$('<li>').fadeIn("slow").html("[" + data.time + "] " 
 		    		+ flag + data.country 
 		    		+ " (" + data.ip + ") - <b class='"+data.type+"'>" 
-		    		+ data.event+"</b>").fadeIn("slow").delay(3000).hide('slow')
+		    		+ data.event+"</b>").fadeIn("slow").delay(30000).hide('slow')
 		    );
 
 			var myMarker = L.marker([data.latitude, data.longitude]);
-			
+			var color = "#000000";
 
 			if (data.event.indexOf("contactlist") > -1) {
-				myMarker.setIcon(L.mapbox.marker.icon({
-                    'marker-color': '#7b58a3'
-                }));
+                    		color = '#7b58aa3';
 			}
 			else if (data.event.indexOf("Answered NPS Survey") > -1) {
-				myMarker.setIcon(L.mapbox.marker.icon({
-                    'marker-color': '#a37858'
-                }));
+                    		color = '#a37858';
 			}
 			else if (data.event.indexOf("blog") > -1) {
-				myMarker.setIcon(L.mapbox.marker.icon({
-                    'marker-color': '#4c4f59'
-                }));
+                    		color = '#4c4f59';
 			}
 			else if (data.event.indexOf("signin") > -1) {
-				myMarker.setIcon(L.mapbox.marker.icon({
-                    'marker-color': '#ebad54',
-                    'marker-size': 'large'
-                }));
+                    		color = '#ebad54';
 			}
 			else if (data.event.indexOf("campaign") > -1) {
-				myMarker.setIcon(L.mapbox.marker.icon({
-                    'marker-color': '#68b6b0'
-                }));
+                    		color = '#68b6b0';
 			}
 			else if (data.event.indexOf("signup") > -1) {
-				myMarker.setIcon(L.mapbox.marker.icon({
-                    'marker-color': '#f26b33',
-                    'marker-size': 'large'
-                }));
-			}
-			else {
-				myMarker.setIcon(L.mapbox.marker.icon({
-                    'marker-color': '#000000'
-                }));
+                    		color = '#f26b33';
 			}
 
+			myMarker.setIcon(L.mapbox.marker.icon({
+                    		'marker-color': color
+                	}));
 			myMarker.addTo(map);
 
 			// dispaear after 60 sec
 			setTimeout(function(){
 				myMarker.setOpacity(0);
-			}, 3000);
+			}, 30000);
 
 			//L.marker([data.latitude, data.longitude]).addTo(map).bindPopup("New Signup.").openPopup();
 		});
