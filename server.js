@@ -8,7 +8,7 @@ var request = require('request');
 var path    = require("path");
 var chance = new Chance();
 
-var ip = ["77.132.40.134", "80.67.176.198", "::1"]
+var ip = ["63.118.185.98","77.132.40.134", "80.67.176.198", "::1"]
 var users = [];
 
 app.use(bodyParser.json());       // to support JSON-encoded bodies
