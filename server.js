@@ -8,7 +8,7 @@ var request = require('request');
 var path    = require("path");
 var chance = new Chance();
 
-var ip = ["63.118.185.98","77.132.40.134", "80.67.176.198", "::1"]
+var ip = ["::ffff:193.248.60.205","77.132.40.134", "80.67.176.198", "::1"]
 var users = [];
 
 app.use(bodyParser.json());       // to support JSON-encoded bodies
@@ -34,28 +34,23 @@ app.post('/signup', function(req, res) {
 	var ip = req.body.context.ip;
 	var type = req.body.type;
 	
-
+	console.log(ip,type);
+	if (ip){
 	// segmentio specific
-	if (type == 'page'){
-	var event = req.body.event;
-		var event = req.body.context.page.path;
-	}
-	else if (type == 'track'){
 		var event = req.body.event
 	
 
 		console.log("ip \t-> " + ip);
 		console.log("type \t-> " + type);
 		console.log("event \t-> " + event);
-
-		request('http://www.telize.com/geoip/'+ip+'', function (error, response, body) {
+		request('http://ip-api.com/json/'+ip+'', function (error, response, body) {
 		 	if (!error && response.statusCode == 200) {
 				var obj = JSON.parse(body);
 
 				var country = obj.country;
-				var longitude = obj.longitude;
-				var latitude = obj.latitude;
-				var iso = obj.country_code;
+				var longitude = obj.lon;
+				var latitude = obj.lat;
+				var iso = obj.countryCode;
 
 				coordinates = {
 					event : event,
